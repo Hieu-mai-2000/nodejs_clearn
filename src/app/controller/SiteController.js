@@ -1,7 +1,14 @@
+const Course = require('../models/Course')
+const {mongooseToObject} = require('../../util/mongoose')
+
 class SiteController {
     // [GET] /
     main(req, res, next) {
-        res.send('bạn đang ở trang chủ!!!');
+        Course.find()
+            .then(courses => {
+                res.render('home',{courses:mongooseToObject(courses)})
+            })
+            .catch(next)
     }
 
     // [GET] /news
