@@ -18,14 +18,58 @@
                     <td>{{this.videoID}}</td>
                     <td>{{this.createdAt}}</td>
                     <td><a href="/me/{{this._id}}/update"><button type="button" class="btn btn-outline-success">Cập nhập</button></a></td>
-                    <td><a href="#"><button type="button" class="btn btn-outline-success">Xóa</button></a></td>
+                    <td><a href="#" ><button type="button" class="btn btn-outline-success btnDelete" 
+                            data-toggle="modal" data-target="#deleteCourse" data-id="{{this._id}}" >Xóa</button>
+                        </a>
+                    </td>
                     </tr>
                     {{/each}}
                 </tbody>
             </table>
 
-       
+            <!-- Modal -->
+            <div class="modal fade" id="deleteCourse" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Xóa khóa học</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn xóa khóa học này ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="btnDelete">Xóa</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                </div>
+                </div>
+            </div>
+            </div>
+
         </div>
     </div>
+
     
 </div>
+<form method="POST" id="formDeleteCourse"> </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded',function() {
+        let id
+        const btnDelete = document.querySelector('#btnDelete')
+        const formDelete = document.querySelector('#formDeleteCourse')
+
+        $('.btnDelete').click(function() {
+            id = $(this).data('id')
+        })
+
+        btnDelete.onclick = function() {
+            formDelete.action ='/me/course/' + id + '?_method=DELETE'
+            formDelete.submit()
+        }
+    })
+   
+</script>
+
