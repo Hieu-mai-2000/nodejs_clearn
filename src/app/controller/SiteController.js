@@ -1,15 +1,13 @@
-
-class SiteController{
-
+class SiteController {
     // [GET] /
-    main(req, res,next){
-        res.send('bạn đang ở trang chủ!!!')
+    main(req, res, next) {
+        res.send('bạn đang ở trang chủ!!!');
     }
 
     // [GET] /news
-    index(req, res,next){
-        res.send('news')
+    index(req, res, next) {
+        res.send('news');
     }
 }
 
-module.exports = new SiteController
+module.exports = new SiteController();
