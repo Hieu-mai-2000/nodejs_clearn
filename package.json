@@ -2,9 +2,11 @@
     "name": "nodejs",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "src/index.js",
     "scripts": {
-        "start": "nodemon --inspect index.js",
+        "dev": "concurrently --kill-others \"npm run start\" \"npm run watch\"",
+        "start": "nodemon --inspect src/index.js",
+        "watch": "node-sass --watch src/resources/scss/ --output src/public/css/",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -22,6 +24,13 @@
     "homepage": "https://github.com/Hieu-mai-2000/nodejs_clearn#readme",
     "dependencies": {
         "express": "^4.17.1",
-        "nodemon": "^2.0.7"
+        "express-handlebars": "^5.2.1",
+        "morgan": "^1.10.0",
+        "node-sass": "^5.0.0",
+        "nodemon": "^2.0.7",
+        "sass": "^1.32.8"
+    },
+    "devDependencies": {
+        "concurrently": "^6.0.0"
     }
 }
