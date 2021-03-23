@@ -28,9 +28,32 @@ class MeController {
     }
     // [DELETE] /me/course/:id
     delete(req, res, next) {
-        Course.deleteOne({_id : req.params.id})
-            .then(() => res.redirect('/me/course/stored'))
+        Course.delete({_id : req.params.id})
+            .then( () => res.redirect('/me/course/stored'))
             .catch()
+    }
+
+    // [GET] /me/trash/course
+    trashShow(req, res, next) {
+        Course.findDeleted()
+            .then(courses => res.render('meTrashCourse',{courses : mongooseToObject(courses)}))
+            .catch(next)
+    }
+
+    // [PATCH] /me/trash/:id
+    restoreCourse(req, res, next) {
+        Course.restore({_id: req.params.id})
+            .then( () => res.redirect('/me/trash/course'))
+            .catch(next)
+
+    }
+
+    // [DELETE] /me/course/force/:id
+    deleteForce(req, res, next) {
+        Course.deleteOne({_id: req.params.id})
+            .then( () => res.redirect('back'))
+            .catch(next)
+
     }
     
 }

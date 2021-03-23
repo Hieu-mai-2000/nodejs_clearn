@@ -2,10 +2,9 @@
     <div class="container">
         <div class="row">
             <div>
-            <h1>Khóa học của tôi</h1>
-            <a href="/me/trash/course">thùng rác</a>
+                <h1>Thùng rác</h1>
+                <a href="/me/course/stored">trở về</a>
             </div>
-            
             
             <table class="table">
                 
@@ -14,7 +13,7 @@
                     <th scope="col">STT</th>
                     <th scope="col">Tên khóa học</th>
                     <th scope="col">link video</th>
-                    <th scope="col" colspan="3">ngày tạo</th>
+                    <th scope="col" colspan="3">ngày xóa</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,18 +23,17 @@
                     <td>{{this.name}}</td>
                     <td>{{this.videoID}}</td>
                     <td>{{this.createdAt}}</td>
-                    <td><a href="/me/{{this._id}}/update"><button type="button" class="btn btn-outline-success">Cập nhập</button></a></td>
-                    <td><a href="#" ><button type="button" class="btn btn-outline-success btnDelete" 
-                            data-toggle="modal" data-target="#deleteCourse" data-id="{{this._id}}" >Xóa</button>
+                    <td><a href=""><button type="button" class="btn btn-outline-success btnRestore " data-id="{{this._id}}">Khôi phục</button></a></td>
+                    <td><a href="" ><button type="button" class="btn btn-outline-success btnDelete" 
+                            data-toggle="modal" data-target="#deleteCourse" data-id="{{this._id}}" >Xóa vĩnh viễn</button>
                         </a>
                     </td>
                     </tr>
                     {{else}}
                     <tr>
-                        <td colspan="5" class="text-center"><h3>khóa học chưa được tạo</h3>   <a href="/courses/create">bấm vào đây để tạo khóa học</a> </td>
+                        <td colspan="5" class="text-center"><h3>Thùng rác trống</h3>   <a href="/me/course/stored">trở về khóa học</a> </td>
 
                     </tr>
-
                     {{/each}}
                 </tbody>
             </table>
@@ -67,19 +65,28 @@
     
 </div>
 <form method="POST" id="formDeleteCourse"> </form>
+<form method="POST" id="formRestoreCourse"> </form>
 
 <script>
     document.addEventListener('DOMContentLoaded',function() {
         let id
         const btnDelete = document.querySelector('#btnDelete')
         const formDelete = document.querySelector('#formDeleteCourse')
+        const formRestore = document.querySelector('#formRestoreCourse')
 
-        $('.btnDelete').click(function() {
+        $('.btnDelete').click(function(e) {
+            e.preventDefault()
             id = $(this).data('id')
         })
 
+        $('.btnRestore').click(function(e) {
+            e.preventDefault()
+            formRestore.action = '/me/trash/' + $(this).data('id') + '?_method=PATCH'
+            formRestore.submit()
+        })
+
         btnDelete.onclick = function() {
-            formDelete.action ='/me/course/' + id + '?_method=DELETE'
+            formDelete.action ='/me/course/force/' + id + '?_method=DELETE'
             formDelete.submit()
         }
     })

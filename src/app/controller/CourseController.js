@@ -22,8 +22,8 @@ class CourseController {
         req.body.image = 'https://img.youtube.com/vi/' + req.body.videoID + '/sddefault.jpg'
         const model = new Course(req.body)
         model.save()
-        
-        res.send('Course saved')
+            .then( () => res.redirect('/me/course/stored'))
+            .catch(next)
     }
 
     
