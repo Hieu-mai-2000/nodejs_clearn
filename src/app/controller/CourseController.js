@@ -26,6 +26,38 @@ class CourseController {
             .catch(next)
     }
 
+    // [POST] /course/deleteCheckBox
+    deleteCheckBox(req, res, next){
+        switch(req.body.action){
+            case 'delete':
+                Course.delete({_id : {$in: req.body.courseIds} })
+                    .then(course => res.redirect('back'))
+                    .catch(next)
+                break;
+            
+            default:
+                res.json({message : "action invalid"})
+        }
+    }
+
+    //[POST] /courses/trash/handles
+    handles(req, res, next){
+        switch(req.body.action){
+            case 'restore':
+                Course.restore({_id : {$in : req.body.courseIds}})
+                    .then(course => res.redirect('back'))
+                    .catch(next)
+                break
+            case 'deleteFore':
+                Course.deleteMany({_id : {$in : req.body.courseIds}})
+                    .then(course => res.redirect('back'))
+                    .catch(next)
+                break
+
+            default:
+                res.json({message : "action invalid"})
+        }
+    }
     
 }
 

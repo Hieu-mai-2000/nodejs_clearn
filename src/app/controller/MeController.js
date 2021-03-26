@@ -5,10 +5,10 @@ class MeController {
 
     // [GET] /me/course/stored
     show(req, res, next) {
-        
-        Course.find()
-            .then(courses => res.render('meCourse',{courses : mongooseToObject(courses)}))
+        Promise.all([ Course.countDocumentsDeleted() , Course.find() ])
+            .then( ([countDelete,courses]) => res.render('meCourse',{ countDelete,courses : mongooseToObject(courses)}))
             .catch(next)
+        
     }
 
     // [GET] /me/course/update
@@ -50,6 +50,7 @@ class MeController {
 
     // [DELETE] /me/course/force/:id
     deleteForce(req, res, next) {
+        
         Course.deleteOne({_id: req.params.id})
             .then( () => res.redirect('back'))
             .catch(next)

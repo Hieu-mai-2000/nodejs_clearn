@@ -1,24 +1,47 @@
-<div class="mt-4">
+<form class="mt-4" name='formTrash' method="POST" action='/courses/trash/handles'>
     <div class="container">
         <div class="row">
             <div>
                 <h1>Thùng rác</h1>
                 <a href="/me/course/stored">trở về</a>
+                <div class="form-check d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" value="" id="check-box-all">
+                    <label class="form-check-label" for="defaultCheck1">
+                        Chọn tất cả 
+                    </label>
+                    <div class="form-group checkboxs">
+                        <select class="form-control" name='action' required>
+                        <option value="">--lựa chọn--</option>
+                        <option value="restore">Khôi phục</option>
+                        <option value="deleteFore">Xóa vĩnh viễn</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-apply" disabled>Thực hiện</button>
+                </div>
+               
             </div>
             
             <table class="table">
                 
                 <thead class="thead-dark">
                     <tr>
-                    <th scope="col">STT</th>
-                    <th scope="col">Tên khóa học</th>
-                    <th scope="col">link video</th>
+                    <th scope="col" colspan="2">STT</th>
+                    <th scope="col"colspan="1">Tên khóa học</th>
+                    <th scope="col"colspan="1">link video</th>
                     <th scope="col" colspan="3">ngày xóa</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#each courses}}
                     <tr>
+                        
+                    </tr>
+                    <tr>
+                    <th>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._id}}">
+                        </div>
+                    </th>
                     <th scope="row">{{sum @index 1}}</th>
                     <td>{{this.name}}</td>
                     <td>{{this.videoID}}</td>
@@ -63,7 +86,7 @@
     </div>
 
     
-</div>
+</form>
 <form method="POST" id="formDeleteCourse"> </form>
 <form method="POST" id="formRestoreCourse"> </form>
 
@@ -73,6 +96,10 @@
         const btnDelete = document.querySelector('#btnDelete')
         const formDelete = document.querySelector('#formDeleteCourse')
         const formRestore = document.querySelector('#formRestoreCourse')
+        const btnApply = document.querySelector('.btn-apply')
+        const checkBoxAll = document.querySelector("#check-box-all")
+        const elementCheckBox = $("input[name= 'courseIds[]']")
+        console.log(elementCheckBox)
 
         $('.btnDelete').click(function(e) {
             e.preventDefault()
@@ -89,6 +116,21 @@
             formDelete.action ='/me/course/force/' + id + '?_method=DELETE'
             formDelete.submit()
         }
+
+        checkBoxAll.onclick = function() {
+            Array.from(elementCheckBox).forEach(element => element.checked = this.checked)
+            // xử lý sự kiện mất disabled btnApply
+            this.checked ? btnApply.disabled = false : btnApply.disabled = true
+        }
+        elementCheckBox.click(function(e){
+            let count =0
+            const arrayElementCheckBox = Array.from(elementCheckBox)
+            arrayElementCheckBox.forEach(element => element.checked ? count++ : undefined)
+            count === arrayElementCheckBox.length ? checkBoxAll.checked = true : checkBoxAll.checked = false
+            // xử lý sự kiện mất disabled btnApply
+            count ? btnApply.disabled = false : btnApply.disabled = true
+        })
+        
     })
    
 </script>
