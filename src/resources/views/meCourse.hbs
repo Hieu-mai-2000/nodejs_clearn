@@ -16,16 +16,24 @@
             </div>
             </div>
             
-            
 
             <table class="table">
                 
                 <thead class="thead-dark">
                     <tr>
-                    <th scope="col">STT</th>
-                    <th scope="col">Tên khóa học</th>
-                    <th scope="col">link video</th>
-                    <th scope="col" colspan="4">ngày tạo</th>
+                    <th scope="col" colspan='2'>STT</th>
+                    <th scope="col" colspan='1'>
+                        Tên khóa học
+                        {{{sortTable 'name' _sort}}}
+                    </th>
+                    <th scope="col">
+                        link video
+                        {{{sortTable 'videoID' _sort}}}
+                    </th>
+                    <th scope="col" colspan='3'>
+                        ngày tạo
+                        {{{sortTable 'updatedAt' _sort}}}    
+                    </th>
                     </tr>
                 </thead>
                 <tbody>

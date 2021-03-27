@@ -7,6 +7,7 @@ const port = 3000;
 const route = require('./routes')
 const db = require('./config/db/connect')
 const methodOverride = require('method-override')
+const SortMiddleware = require('./app/middlewares/SortMiddleware')
 
 
 // connect to database
@@ -25,7 +26,8 @@ app.use(
 );
 app.use(express.json());
 
-
+//cussom middleware
+app.use(SortMiddleware)
 
 
 // HTTP logger
@@ -36,6 +38,30 @@ app.engine('.hbs', handlebars({
         extname: '.hbs',
         helpers : { 
             sum : (a,b) =>a+b,
+            sortTable : (field,sort) =>{
+                let sortType = field === sort.column ? sort.type : 'default'
+
+                const icons ={
+                    default : 'oi oi-elevator',
+                    asc : 'oi oi-sort-ascending',
+                    desc: 'oi oi-sort-descending',
+                }
+
+                const types ={
+                    default : 'desc',
+                    asc : 'desc',
+                    desc : 'asc',
+                }
+
+                const icon = icons[sortType]
+                const type = types[sortType]
+
+                return `
+                <a href="?_sort&column=${field}&type=${type}">
+                            <span class="${icon}"></span>   
+                        </a>
+                `
+            }
         }
     }));
 app.set('view engine', '.hbs');

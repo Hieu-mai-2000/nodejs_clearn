@@ -5,7 +5,14 @@ class MeController {
 
     // [GET] /me/course/stored
     show(req, res, next) {
-        Promise.all([ Course.countDocumentsDeleted() , Course.find() ])
+        let Courses = Course.find()
+        if(req.query.hasOwnProperty('_sort')){
+            Courses = Courses.sort({
+                [req.query.column] : res.locals._sort.type
+            })
+        }
+
+        Promise.all([ Course.countDocumentsDeleted() , Courses ])
             .then( ([countDelete,courses]) => res.render('meCourse',{ countDelete,courses : mongooseToObject(courses)}))
             .catch(next)
         
