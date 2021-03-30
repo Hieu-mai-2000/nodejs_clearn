@@ -8,10 +8,12 @@ const route = require('./routes')
 const db = require('./config/db/connect')
 const methodOverride = require('method-override')
 const SortMiddleware = require('./app/middlewares/SortMiddleware')
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 const helper = require('./util/helpersExpress')
+const cookieParser = require('cookie-parser')
 
-
+// use cookie 
+app.use(cookieParser())
 // connect to database
 db.connect()
 
@@ -44,8 +46,8 @@ app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
 
 
-
 route(app);
+
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
