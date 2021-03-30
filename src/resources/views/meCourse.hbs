@@ -13,7 +13,23 @@
                     
                 </select>
                 <button type="submit" class="btn btn-primary btn-apply" disabled>Thực hiện</button>
-            </div>
+<html>
+    <head>
+    <script src="../release/pagination.full.min.js"></script> 
+    </head>
+    <body>
+        <div id="paging"></div>
+        <script type="text/javascript">
+        (function() {
+            var paginator = new pagination.ItemPaginator({prelink:'/', current: 3, rowsPerPage: 200, totalResult: 10020});
+            var html = paginator.render();
+            var paginator = pagination.create('search', {prelink:'/', current: 1, rowsPerPage: 200, totalResult: 10020});
+            html += paginator.render();
+            document.getElementById("paging").innerHTML = html;
+        })();
+        </script> 
+    </body>
+</html>            </div>
             </div>
             
 
@@ -92,7 +108,6 @@
 </form>
 
 <form method="POST" id="formDeleteCourse"> </form>
-
 <script>
     document.addEventListener('DOMContentLoaded',function() {
         let id

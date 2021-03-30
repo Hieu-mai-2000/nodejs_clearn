@@ -7,6 +7,7 @@ function route(app) {
     app.use('/news', newsRouter)
     app.use('/courses', courseRouter)
     app.use('/me', meRouter)
+    app.use('/paging', siteRouter)
     app.use('/', siteRouter)
 }
 

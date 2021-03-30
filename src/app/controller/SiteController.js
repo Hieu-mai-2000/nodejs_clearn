@@ -15,6 +15,11 @@ class SiteController {
     index(req, res, next) {
         res.send('news');
     }
+
+    // [GET] /paging/test
+    test(req, res, next) {
+        res.json(req.paginatedResutls)
+    }
 }
 
 module.exports = new SiteController();
